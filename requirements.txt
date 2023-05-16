@@ -1,0 +1,7 @@
+pyyaml
+torch_utils
+easydict
+segmentation_models_pytorch
+albumentations
+tensorboardX
+mmcv

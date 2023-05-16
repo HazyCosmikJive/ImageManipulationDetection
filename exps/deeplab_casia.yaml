@@ -1,0 +1,51 @@
+config:
+  common:
+    exp_tag: deeplab_srm_CASIA_lr3e-4  # use as work_dir name, e.g. create os.path.join('./work_dirs/{}'.format(exp_tab)) as working space
+    random_seed: 42
+    auto_resume: False
+    task_type: ''  # actually not used here
+    use_tensorlog: True
+    train: True
+    test: False  # if only test, set train=False and test=True;
+    
+  model:
+    architecture: deeplab_srm  # available models: unetplusplus | deeplab | deeplab_srm
+    encoder: se_resnext50_32x4d
+    loss:
+      type: BCE
+
+  data:
+    train_root: /CASIA  # the dataset's root path, for rootpath is not written in metafiles here
+    train_metafile: ./data/datalist/CASIA2_train.txt
+    
+    val_root: /CASIA
+    val_metafile: ./data/datalist/CASIA2_val.txt
+
+    test_root: /CASIA
+    test_metafile: ./data/datalist/CASIA1.txt
+    image_size: 512
+    th: 0.5  # threshold for segment preds
+    remove_small: True  # remove small parts
+    pretrain: False
+    pretrained_model: ''
+
+  trainer:
+    optimizer:
+      type: 'AdamW'
+      base_lr: 0.0003
+      momentum: 0.9
+      weight_decay: 0.0001
+      nesterov: True
+    lr_scheduler:
+      type: 'cosine'
+      warmup_epoch: 5
+    epoch: 50
+    batchsize: 32
+    workers: 8
+    print_freq: 20
+    save_freq: 1
+
+  infer:
+    resume_checkpoint: ''  # TODO: find best model automatically
+    batchsize: 32
+    th: 0.5
